@@ -18,10 +18,10 @@ import { mapActions } from 'pinia'
 
 export default {
   name: 'AddBookView',
-  data () {
+  data() {
     return {
       title: '',
-      authors: '',
+      authors: ''
     }
   },
   computed: {
@@ -32,11 +32,16 @@ export default {
   },
   methods: {
     ...mapActions(useBooksHandler, ['createBook']),
-    async onSubmit () {
-      if (this.shouldPreventSubmission) return
+    async onSubmit() {
+      // if (this.shouldPreventSubmission) return
 
-      await this.createBook({ library: this.$route.params.id, title: this.title, authors: this.authors })
-    },
+      // TODO: validate fields
+      await this.createBook({
+        library: this.$route.params.id,
+        title: this.title,
+        authors: this.authors
+      })
+    }
   }
 }
 </script>

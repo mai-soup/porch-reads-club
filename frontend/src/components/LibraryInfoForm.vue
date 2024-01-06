@@ -13,73 +13,73 @@ div(v-else aria-busy="true") Loading...
 </template>
 
 <script>
-  import axios from 'axios'
-  import { useAccountStore } from '../stores/account'
-  import { useLibrarianHandler } from '../stores/librarian-handler'
-  import { mapActions } from 'pinia'
-  
-  export default {
-    name: 'LibraryInfoForm',
-    data() {
-      return {
-        name: '',
-        location: '',
-        nameError: null,
-        library: null,
-      }
-    },
-    props: ['action', 'libraryId'],
-    computed: {
-      shouldDisableSubmit() {
-        return !this.name || this.nameError || !this.location
-      }
-    },
-    methods: {
-      ...mapActions(useAccountStore, ['fetchUser']),
-      ...mapActions(useLibrarianHandler, ['updateLibrary', 'createLibrary']),
-      async doSubmit() {
-        let id
+import axios from 'axios'
+import { useAccountStore } from '../stores/account'
+import { useLibrarianHandler } from '../stores/librarian-handler'
+import { mapActions } from 'pinia'
 
-        if (this.action === 'edit') {
-          id = this.$route.params.id
-          await this.updateLibrary(id, this.name, this.location )
-        } else {
-          const { _id } = await this.createLibrary(this.name, this.location)
-          id = _id
-        }
+export default {
+  name: 'LibraryInfoForm',
+  data() {
+    return {
+      name: '',
+      location: '',
+      nameError: null,
+      library: null
+    }
+  },
+  props: ['action', 'libraryId'],
+  computed: {
+    shouldDisableSubmit() {
+      return !this.name || this.nameError || !this.location
+    }
+  },
+  methods: {
+    ...mapActions(useAccountStore, ['fetchUser']),
+    ...mapActions(useLibrarianHandler, ['updateLibrary', 'createLibrary']),
+    async doSubmit() {
+      let id
 
-        await this.fetchUser()
-        this.$router.push({ name: 'single-library', params: { id } })
-      },
-      validateName(name) {
-        if (!name) {
-          this.nameError = 'Name is required'
-          return
-        }
-        if (name.length < 5) {
-          this.nameError = 'Name must be at least 5 characters'
-          return
-        }
-        if (name.length > 40) {
-          this.nameError = 'Name cannot exceed 40 characters'
-          return
-        }
-  
-        this.nameError = null
-      },
-    },
-    async mounted() {
       if (this.action === 'edit') {
-        this.library = (await axios.get(`/libraries/${this.libraryId}`)).data
-        this.name = this.library.name
-        this.location = this.library.location
+        id = this.$route.params.id
+        await this.updateLibrary(id, this.name, this.location)
+      } else {
+        const { _id } = await this.createLibrary(this.name, this.location)
+        id = _id
       }
+
+      await this.fetchUser()
+      this.$router.push({ name: 'single-library', params: { id } })
     },
-    watch: {
-      name(value) {
-        this.name = value
-        this.validateName(value)
-      },
+    validateName(name) {
+      if (!name) {
+        this.nameError = 'Name is required'
+        return
+      }
+      if (name.length < 5) {
+        this.nameError = 'Name must be at least 5 characters'
+        return
+      }
+      if (name.length > 40) {
+        this.nameError = 'Name cannot exceed 40 characters'
+        return
+      }
+
+      this.nameError = null
+    }
+  },
+  async mounted() {
+    if (this.action === 'edit') {
+      this.library = (await axios.get(`/libraries/${this.libraryId}`)).data
+      this.name = this.library.name
+      this.location = this.library.location
+    }
+  },
+  watch: {
+    name(value) {
+      this.name = value
+      this.validateName(value)
     }
   }
-  </script>
+}
+</script>

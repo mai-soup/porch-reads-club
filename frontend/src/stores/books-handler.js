@@ -21,7 +21,7 @@ export const useBooksHandler = defineStore('books-handler', {
         console.error(error)
       }
     },
-    async createBook({ library, title, authors}) {
+    async createBook({ library, title, authors }) {
       try {
         const response = await axios.post(`/libraries/${library}/books`, {
           title,
