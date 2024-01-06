@@ -7,8 +7,6 @@ const {
   getSingleLibrary,
   getAllLibraries,
   createLibrary,
-  addCopy,
-  removeCopy,
   joinLibrary,
   leaveLibrary,
   updateCopy,
@@ -23,9 +21,6 @@ router.get('/:id', getSingleLibrary)
 
 router.post('/', mustLogin, createLibrary)
 router.patch('/:id', mustLogin, updateLibrary)
-
-router.post('/:id/copies', mustLogin, addCopy)
-router.delete('/:id/copies/:bookId', mustLogin, removeCopy)
 
 router.get('/:id/members', mustLogin, getAllMembers)
 router.post('/:id/members', mustLogin, joinLibrary)
