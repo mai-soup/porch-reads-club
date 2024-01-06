@@ -123,31 +123,31 @@ module.exports.getAllMembers = async (req, res, next) => {
   }
 }
 
-module.exports.updateCopy = async (req, res, next) => {
-  const { copyId } = req.params
+module.exports.updateBook = async (req, res, next) => {
+  const { bookId } = req.params
   const { action } = req.body
   const { user } = req
 
   try {
-    const bookCopy = await BookCopy.findById(copyId)
+    const book = await Book.findById(bookId)
 
-    if (!bookCopy) {
-      return next(createError(404, 'Book copy not found'))
+    if (!book) {
+      return next(createError(404, 'Book not found'))
     }
 
     try {
       switch (action) {
         case 'borrow':
-          await user.borrowBook(bookCopy)
+          await user.borrowBook(book)
           break
         case 'return':
-          await user.returnBook(bookCopy)
+          await user.returnBook(book)
           break
         case 'extend':
-          await bookCopy.extend()
+          await book.extend()
           break
         case 'lose':
-          await bookCopy.lose()
+          await book.lose()
           break
         default:
           return next(createError(400, 'Invalid action'))
@@ -155,14 +155,14 @@ module.exports.updateCopy = async (req, res, next) => {
     } catch (err) {
       return next(createError(403, err.message))
     }
-    const updatedCopy = await BookCopy.findById(copyId)
-    return res.send(updatedCopy)
+    const updatedBook = await Book.findById(bookId)
+    return res.send(updatedBook)
   } catch (err) {
     console.error(err)
     return next(
       createError(
         500,
-        'An error occurred while updating the book copy. Please try again later.'
+        'An error occurred while updating the book. Please try again later.'
       )
     )
   }

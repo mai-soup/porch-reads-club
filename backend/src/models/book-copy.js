@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
 const autopopulate = require('mongoose-autopopulate')
-const BookCopyService = require('../services/book-copy')
 
 const bookCopySchema = new mongoose.Schema({
   bookInfo: {
@@ -34,7 +33,6 @@ const bookCopySchema = new mongoose.Schema({
   // how to be sure that the correct copy is updated if there are several? difficult.
 })
 
-bookCopySchema.loadClass(BookCopyService)
 bookCopySchema.plugin(autopopulate)
 
 module.exports = mongoose.model('BookCopy', bookCopySchema)

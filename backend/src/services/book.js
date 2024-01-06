@@ -1,4 +1,4 @@
-class BookCopyService {
+class BookService {
   async borrow(user) {
     if (this.status !== 'available') {
       throw new Error('book is not available')
@@ -45,4 +45,4 @@ class BookCopyService {
   }
 }
 
-module.exports = BookCopyService
+module.exports = BookService

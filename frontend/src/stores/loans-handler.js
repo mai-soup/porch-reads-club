@@ -3,9 +3,10 @@ import axios from 'axios'
 
 export const useLoansHandler = defineStore('loans-handler', {
   actions: {
+    // TODO: make params objects consistently
     async borrowBook(libraryId, bookCopyId) {
       try {
-        await axios.patch(`/libraries/${libraryId}/copies/${bookCopyId}`, {
+        await axios.patch(`/libraries/${libraryId}/books/${bookCopyId}`, {
           action: 'borrow'
         })
       } catch (error) {
@@ -15,7 +16,7 @@ export const useLoansHandler = defineStore('loans-handler', {
     },
     async returnBook(libraryId, bookCopyId) {
       try {
-        await axios.patch(`/libraries/${libraryId}/copies/${bookCopyId}`, {
+        await axios.patch(`/libraries/${libraryId}/books/${bookCopyId}`, {
           action: 'return'
         })
       } catch (error) {
@@ -25,7 +26,7 @@ export const useLoansHandler = defineStore('loans-handler', {
     },
     async extendLoan(libraryId, bookCopyId) {
       try {
-        await axios.patch(`/libraries/${libraryId}/copies/${bookCopyId}`, {
+        await axios.patch(`/libraries/${libraryId}/books/${bookCopyId}`, {
           action: 'extend'
         })
       } catch (error) {

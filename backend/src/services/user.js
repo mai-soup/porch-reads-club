@@ -1,5 +1,5 @@
 const Library = require('../models/library')
-const BookCopy = require('../models/book-copy')
+const Book = require('../models/book')
 
 class UserService {
   async createLibrary({ name, location, latitude, longitude }) {
@@ -46,30 +46,30 @@ class UserService {
     await library.removeMember(this)
   }
 
-  async borrowBook(bookCopy) {
-    if (bookCopy.status !== 'available') {
+  async borrowBook(book) {
+    if (book.status !== 'available') {
       throw new Error('book copy is not available')
     }
 
-    await bookCopy.borrow(this)
-    this.loans.push(bookCopy)
+    await book.borrow(this)
+    this.loans.push(book)
     await this.save()
   }
 
-  async returnBook(bookCopy) {
-    const bookCopyObj = await BookCopy.findById(bookCopy._id)
+  async returnBook(book) {
+    const bookObj = await Book.findById(book._id)
 
     if (
-      bookCopyObj.status !== 'borrowed' ||
-      bookCopyObj.borrower._id.toString() !== this._id.toString()
+      bookObj.status !== 'borrowed' ||
+      bookObj.borrower._id.toString() !== this._id.toString()
     ) {
-      throw new Error('book copy is not borrowed by this user')
+      throw new Error('book is not borrowed by this user')
     }
 
-    await bookCopyObj.return()
-    const bookCopyId = bookCopyObj._id.toString()
+    await bookObj.return()
+    const bookId = bookObj._id.toString()
     // filter out bookCopy from loans
-    this.loans = this.loans.filter(loan => loan._id.toString() !== bookCopyId)
+    this.loans = this.loans.filter(loan => loan._id.toString() !== bookId)
     await this.save()
   }
 }
