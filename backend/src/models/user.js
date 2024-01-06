@@ -41,7 +41,7 @@ const userSchema = new mongoose.Schema({
   loans: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'BookCopy',
+      ref: 'Book',
       autopopulate: { maxDepth: 2 },
     },
   ],

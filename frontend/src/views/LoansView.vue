@@ -7,7 +7,7 @@
       // if the loan is about to expire, add the .expiring class.
       li(v-for="loan in loans" :key="loan._id" :class="{ expiring: loan.isExpiringSoon }")
         div
-          RouterLink(:to="{ name: 'single-book', params: { id: loan.bookInfo.openLibraryId } }") {{ loan.bookInfo.title }}
+          RouterLink(:to="{ name: 'single-book', params: { id: loan._id } }") {{ loan.title }}
           span Borrowed until {{ loan.returnDate }}
           button(@click="doReturn(loan)") Return
           // if the loan is due in 7 days or less, show a button to extend the loan

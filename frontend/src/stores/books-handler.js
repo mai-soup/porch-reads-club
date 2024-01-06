@@ -20,19 +20,6 @@ export const useBooksHandler = defineStore('books-handler', {
         // TODO: handle error
         console.error(error)
       }
-    },
-    async fetchOpenBooks(query) {
-      try {
-        const response = await axios.get('/open-books', {
-          params: {
-            q: query
-          }
-        })
-        return response.data
-      } catch (error) {
-        // TODO: handle error
-        console.error(error)
-      }
     }
   }
 })

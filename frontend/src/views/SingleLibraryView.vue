@@ -31,6 +31,7 @@
         tr(v-for="book in library.books" :key="book._id")
           td
             RouterLink(:to="{ name: 'single-book', params: { id: book._id } }") {{ book.title }}
+            p by {{ book.authors }}
           td
             span(v-if="book.status === 'borrowed'") Borrowed by {{ book.borrower.username }} until {{ book.returnDate }}
             span(v-else) {{ book.status }}
