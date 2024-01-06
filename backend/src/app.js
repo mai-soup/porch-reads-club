@@ -23,7 +23,6 @@ const usersRouter = require('./routes/users')
 const librariesRouter = require('./routes/libraries')
 const bookRouter = require('./routes/books')
 const accountsRouter = require('./routes/accounts')
-const openBooksRouter = require('./routes/open-books')
 
 const app = express()
 
@@ -81,7 +80,6 @@ app.use('/users', usersRouter)
 app.use('/libraries', librariesRouter)
 app.use('/books', bookRouter)
 app.use('/accounts', accountsRouter)
-// app.use('/open-books', openBooksRouter)
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

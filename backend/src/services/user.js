@@ -68,7 +68,7 @@ class UserService {
 
     await bookObj.return()
     const bookId = bookObj._id.toString()
-    // filter out bookCopy from loans
+    // filter out book from loans
     this.loans = this.loans.filter(loan => loan._id.toString() !== bookId)
     await this.save()
   }

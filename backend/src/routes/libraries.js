@@ -26,8 +26,6 @@ router.get('/:id/members', mustLogin, getAllMembers)
 router.post('/:id/members', mustLogin, joinLibrary)
 router.patch('/:id/members', mustLogin, leaveLibrary)
 
-// router.patch('/:id/copies/:copyId', mustLogin, updateCopy)
-
 router.post('/:id/books', mustLogin, createBook)
 router.delete('/:id/books/:bookId', mustLogin, removeBook)
 router.patch('/:id/books/:bookId', mustLogin, updateBook)

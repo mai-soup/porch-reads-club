@@ -2,16 +2,7 @@ const express = require('express')
 
 const router = express.Router()
 const mustLogin = require('../middleware/must-login')
-const {
-  getOpenLibraryBook,
-  createBook,
-  getBooks,
-  getSingleBook,
-} = require('../controllers/books')
-
-// router.get('/:openLibraryId', mustLogin, getOpenLibraryBook)
-
-router.post('/', mustLogin, createBook)
+const { getBooks, getSingleBook } = require('../controllers/books')
 
 router.get('/', mustLogin, getBooks)
 

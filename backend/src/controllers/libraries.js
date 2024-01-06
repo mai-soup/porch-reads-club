@@ -1,9 +1,6 @@
 const createError = require('http-errors')
-const axios = require('axios')
 
 const Library = require('../models/library')
-const BookInfo = require('../models/book-info')
-const BookCopy = require('../models/book-copy')
 const Book = require('../models/book')
 const User = require('../models/user')
 const { uploadImage, deleteImage } = require('../lib/google-cloud-storage')

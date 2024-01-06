@@ -1,7 +1,4 @@
-const BookCopy = require('../models/book-copy')
 const Book = require('../models/book')
-const BookInfo = require('../models/book-info')
-
 // TODO: only owner can change name
 
 // TODO: compare ids with .equals() instead of casting to string
