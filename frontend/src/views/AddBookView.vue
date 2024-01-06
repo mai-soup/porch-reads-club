@@ -33,13 +33,18 @@ export default {
   methods: {
     ...mapActions(useLibrarianHandler, ['createBook']),
     async onSubmit() {
-      // if (this.shouldPreventSubmission) return
+      if (this.shouldPreventSubmission) return
 
       // TODO: validate fields
       await this.createBook({
         library: this.$route.params.id,
         title: this.title,
         authors: this.authors
+      })
+
+      this.$router.push({
+        name: 'single-library',
+        params: { id: this.$route.params.id }
       })
     }
   }
