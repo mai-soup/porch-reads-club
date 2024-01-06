@@ -1,4 +1,5 @@
 const BookCopy = require('../models/book-copy')
+const Book = require('../models/book')
 const BookInfo = require('../models/book-info')
 
 // TODO: only owner can change name
@@ -40,13 +41,12 @@ class LibraryService {
     await this.save()
   }
 
-  async addBook(bookInfo) {
-    const bookCopy = await BookCopy.create({ bookInfo, library: this })
+  async addBook({ title, authors }) {
+    const book = await Book.create({ title, authors, library: this })
 
-    await bookInfo.addToLibrary(this)
-    this.books.push(bookCopy)
+    this.books.push(book)
     await this.save()
-    return bookCopy
+    return book
   }
 
   async removeBookCopy(bookCopy) {

@@ -322,11 +322,7 @@ module.exports.createBook = async (req, res, next) => {
   if (!authors || !title) return next(createError(400, 'Missing parameters'))
 
   const library = await Library.findById(req.params.id)
-  const book = await Book.create({
-    authors,
-    title,
-    library,
-  })
+  const book = await library.addBook({ title, authors })
 
   return res.status(201).send(book)
 }

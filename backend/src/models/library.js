@@ -40,8 +40,8 @@ const librarySchema = new mongoose.Schema({
   books: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'BookCopy',
-      autopopulate: { maxDepth: 2 },
+      ref: 'Book',
+      autopopulate: { maxDepth: 1 },
     },
   ],
   imageName: String,
