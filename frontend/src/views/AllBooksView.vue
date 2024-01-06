@@ -7,14 +7,14 @@
       thead
         tr
           th Title
-          th Author
+          th Authors
           th Actions
       tbody
-        tr(v-for="book in books" :key="book.openLibraryId")
+        tr(v-for="book in books" :key="book._id")
           td {{ book.title }}
-          td {{ book.author }}
+          td {{ book.authors }}
           td
-            RouterLink(:to="{ name: 'single-book', params: { id: book.openLibraryId } }") View
+            RouterLink(:to="{ name: 'single-book', params: { id: book._id } }") View
   div(v-else)
     div(v-if="books === null") Loading...
     div(v-else) No books exist.
@@ -36,7 +36,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(useBooksHandler, ['fetchAllBooks']),
+    ...mapActions(useBooksHandler, ['fetchAllBooks'])
   },
   async mounted() {
     this.books = await this.fetchAllBooks()

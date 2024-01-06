@@ -21,7 +21,7 @@ passport.deserializeUser(User.deserializeUser())
 const indexRouter = require('./routes/index')
 const usersRouter = require('./routes/users')
 const librariesRouter = require('./routes/libraries')
-const bookInfoRouter = require('./routes/books')
+const bookRouter = require('./routes/books')
 const accountsRouter = require('./routes/accounts')
 const openBooksRouter = require('./routes/open-books')
 
@@ -79,9 +79,9 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use('/', indexRouter)
 app.use('/users', usersRouter)
 app.use('/libraries', librariesRouter)
-app.use('/books', bookInfoRouter)
+app.use('/books', bookRouter)
 app.use('/accounts', accountsRouter)
-app.use('/open-books', openBooksRouter)
+// app.use('/open-books', openBooksRouter)
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

@@ -3,12 +3,9 @@
   div(v-if="book")
     h1 {{ book.title }}
     img(:src="book.imageUrl" :alt="book.title")
-    div by {{ book.authors.join(', ') }}
+    div by {{ book.authors }}
 
-    h2 Libraries
-      ul
-        li(v-for="library in book.librariesFoundIn" :key="library._id")
-          RouterLink(:to="{ name: 'single-library', params: { id: library._id } }") {{ library.name }}
+    p Found in: #[RouterLink(:to="{ name: 'single-library', params: { id: book.library._id } }") {{ book.library.name }}]
   div(v-else) Loading...
 </template>
 
@@ -20,14 +17,14 @@ export default {
   name: 'SingleBookView',
   data() {
     return {
-      book: null,
+      book: null
     }
   },
   methods: {
-    ...mapActions(useBooksHandler, ['fetchBook']),
+    ...mapActions(useBooksHandler, ['fetchBook'])
   },
   async mounted() {
     this.book = await this.fetchBook(this.$route.params.id)
-  },
+  }
 }
 </script>

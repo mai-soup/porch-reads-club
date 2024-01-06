@@ -3,6 +3,14 @@ const axios = require('axios')
 const Fuse = require('fuse.js')
 
 const BookInfo = require('../models/book-info')
+const Book = require('../models/book')
+
+module.exports.getSingleBook = async (req, res, next) => {
+  const book = await Book.findById(req.params.id)
+
+  if (!book) return next(createError(404, 'Book not found'))
+  return res.send(book)
+}
 
 module.exports.getOpenLibraryBook = async (req, res, next) => {
   const { openLibraryId } = req.params
@@ -68,37 +76,7 @@ module.exports.createBook = async (req, res, next) => {
 }
 
 module.exports.getBooks = async (req, res, next) => {
-  const query = req.query.q
+  const books = await Book.find()
 
-  try {
-    const books = await BookInfo.find({})
-
-    if (query) {
-      // check title and author
-      // set up fuzzy search with Fuse.js
-      const fuse = new Fuse(books, {
-        keys: ['title', 'authors'],
-      })
-
-      const results = fuse.search(query)
-
-      if (results.length === 0) {
-        return next(createError(404, 'No results found'))
-      }
-
-      const bestMatches = results.map(result => result.item) // get the actual book objects
-
-      return res.send(bestMatches)
-    }
-
-    // no query, return all books
-    return res.send(books)
-  } catch (err) {
-    return next(
-      createError(
-        500,
-        'An error occurred while retrieving the book infos. Please try again later.'
-      )
-    )
-  }
+  return res.send(books)
 }
