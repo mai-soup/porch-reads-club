@@ -326,3 +326,12 @@ module.exports.createBook = async (req, res, next) => {
 
   return res.status(201).send(book)
 }
+
+module.exports.removeBook = async (req, res, next) => {
+  const book = await Book.findById(req.params.bookId)
+
+  const library = await Library.findById(req.params.id)
+  await library.removeBook(book)
+
+  return res.status(204).send()
+}

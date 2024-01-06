@@ -30,7 +30,7 @@
       tbody
         tr(v-for="book in library.books" :key="book._id")
           td
-            RouterLink(:to="{ name: 'single-book', params: { id: book.bookInfo.openLibraryId } }") {{ book.bookInfo.title }}
+            RouterLink(:to="{ name: 'single-book', params: { id: book._id } }") {{ book.title }}
           td
             span(v-if="book.status === 'borrowed'") Borrowed by {{ book.borrower.username }} until {{ book.returnDate }}
             span(v-else) {{ book.status }}
@@ -54,7 +54,7 @@ export default {
   name: 'SingleLibraryView',
   data() {
     return {
-      library: null, // init with null for clearer conditional checks
+      library: null // init with null for clearer conditional checks
     }
   },
   components: {
@@ -82,10 +82,14 @@ export default {
   },
   methods: {
     ...mapActions(useAccountStore, ['fetchUser']),
-    ...mapActions(useLibraryHandler, ['fetchLibrary', 'joinLibrary', 'leaveLibrary']),
-    ...mapActions(useLoansHandler, ['borrowBook','returnBook']),
+    ...mapActions(useLibraryHandler, [
+      'fetchLibrary',
+      'joinLibrary',
+      'leaveLibrary'
+    ]),
+    ...mapActions(useLoansHandler, ['borrowBook', 'returnBook']),
     ...mapActions(useAccountStore, ['isOwnerOfLibrary']),
-    ...mapActions(useLibrarianHandler, ['removeCopy']),
+    ...mapActions(useLibrarianHandler, ['removeBook']),
     async join() {
       await this.joinLibrary(this.$route.params.id)
       this.library.members.push({ _id: this.username, username: this.username })
@@ -108,13 +112,14 @@ export default {
       this.fetchUser()
     },
     async doRemoveBook(book) {
-      await this.removeCopy(this.$route.params.id, book._id)
+      await this.removeBook({
+        libraryId: this.$route.params.id,
+        bookId: book._id
+      })
 
-      this.library.books = this.library.books.filter(
-        (b) => b._id!== book._id
-        )
+      this.library.books = this.library.books.filter((b) => b._id !== book._id)
     }
-  },
+  }
 }
 </script>
 

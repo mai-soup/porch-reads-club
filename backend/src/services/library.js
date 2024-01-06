@@ -49,23 +49,15 @@ class LibraryService {
     return book
   }
 
-  async removeBookCopy(bookCopy) {
+  async removeBook(book) {
     const index = this.books.findIndex(
-      b => b._id.toString() === bookCopy._id.toString()
+      b => b._id.toString() === book._id.toString()
     )
     if (index === -1) {
-      throw new Error('copy is not in this library')
-    }
-    const copiesLeft = this.books.filter(
-      b => b.bookInfo.openLibraryId === bookCopy.bookInfo.openLibraryId
-    )
-
-    if (copiesLeft.length === 1) {
-      const bookInfo = await BookInfo.findById(bookCopy.bookInfo._id)
-      await bookInfo.removeFromLibrary(this)
+      throw new Error('book is not in this library')
     }
 
-    await BookCopy.findByIdAndDelete(bookCopy._id)
+    await Book.findByIdAndDelete(book._id)
     this.books.splice(index, 1)
     await this.save()
   }

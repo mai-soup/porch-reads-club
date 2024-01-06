@@ -3,19 +3,21 @@ import axios from 'axios'
 
 export const useLibrarianHandler = defineStore('librarian-handler', {
   actions: {
-    async removeCopy(libraryId, bookCopyId) {
+    async createBook({ library, title, authors }) {
       try {
-        await axios.delete(`/libraries/${libraryId}/copies/${bookCopyId}`)
+        const response = await axios.post(`/libraries/${library}/books`, {
+          title,
+          authors
+        })
+        return response.data
       } catch (error) {
         // TODO: handle error
         console.error(error)
       }
     },
-    async addCopy(libraryId, bookId) {
+    async removeBook({ libraryId, bookId }) {
       try {
-        await axios.post(`/libraries/${libraryId}/copies`, {
-          openLibraryId: bookId
-        })
+        await axios.delete(`/libraries/${libraryId}/books/${bookId}`)
       } catch (error) {
         // TODO: handle error
         console.error(error)
